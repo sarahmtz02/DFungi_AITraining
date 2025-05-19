@@ -11,7 +11,7 @@ Recuperado del link: https://archive.ics.uci.edu/dataset/773/defungi
 Autores: María Alejandra Vanegas Álvarez, Leticia Sopó, C. Sopo, F. Hajati, S. Gheisari
 
 La estructura del dataset es la siguiente:
-´´´
+```
 DFungi Dataset
 ├── test
 │ ├── H1 (3563 imágenes)
@@ -26,7 +26,7 @@ DFungi Dataset
 │ ├── H5 (162 imágenes)
 │ └── H6 (148 imágenes)
 └── augmented (312 imágenes)
-´´´
+```
 
 # 🧹 Preprocesamiento de Datos
 
