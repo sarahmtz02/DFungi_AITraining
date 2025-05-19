@@ -8,7 +8,7 @@ Se ha desarrollado con la técnica de **Aprendizaje Supervisado**. Esta es una s
 ## Sobre el Dataset
 
 La estructura del dataset es la siguiente:
-
+```
 DFungi Dataset
 ├── test
 │ ├── H1 (3563 imágenes)
@@ -23,3 +23,4 @@ DFungi Dataset
 │ ├── H5 (162 imágenes)
 │ └── H6 (148 imágenes)
 └── augmented (312 imágenes)
+```
