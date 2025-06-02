@@ -1,6 +1,8 @@
 # Clasificación de Imágenes de Infecciones por Hongos con TensorFlow
 
-![Logo Tec](Fotos/tec_logo.png)
+<p align="left">
+    <img src="Fotos/tec_logo.png" alt="Logo Tec" width="120"/>
+</p>
 
 ## 📝 Descripción
 
