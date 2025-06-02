@@ -1,5 +1,7 @@
 # Clasificación de Imágenes de Infecciones por Hongos con TensorFlow
 
+![Logo Tec](Fotos/tec_logo.png)
+
 ## 📝 Descripción
 
 Proyecto académico para la materia Desarrollo de aplicaciones avanzadas de ciencias computacionales. Este repositorio implementa un modelo de aprendizaje supervisado con TensorFlow para la clasificación de imágenes médicas en cinco clases distintas de infecciones por hongos.
@@ -11,6 +13,7 @@ Recuperado del link: https://archive.ics.uci.edu/dataset/773/defungi
 Autores: María Alejandra Vanegas Álvarez, Leticia Sopó, C. Sopo, F. Hajati, S. Gheisari
 
 La estructura del dataset es la siguiente:
+
 ```
 DFungi Dataset
 ├── test
