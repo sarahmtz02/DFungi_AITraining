@@ -223,3 +223,59 @@ De esta manera, la red queda como se muestra en la imagen:
 <p>
     <img src="Fotos/red.png" alt="tabla_red"/>
 </p>
+
+Hubo una arquitectura previa en la cual se montaron las capas manualmente con so de MaxPooling2D después de cada capa convolutiva donde los filtros van escalando en valores de 2 elevado a las primeras potencias. Es un entrenamiento mucho más lento y lo máximo que se logró de accuracy fue de 61%. Está basado justamente en la arquitectura VGG16, pero justo con el planteamiento de que fuese más rápido de entrenar y procesar en su momento.
+
+```
+from tensorflow.keras import optimizers
+from tensorflow.keras import models
+from tensorflow.keras import layers
+
+input_shape = (224,224,3)
+model = models.Sequential()
+
+model.add(layers.Conv2D(16, (3, 3), activation='relu', padding='same', input_shape=input_shape))
+model.add(layers.Conv2D(16, (3, 3), activation='relu', padding='same'))
+model.add(layers.MaxPooling2D((2, 2)))
+
+model.add(layers.Conv2D(32, (3, 3), activation='relu'))
+model.add(layers.Conv2D(32, (3, 3), activation='relu'))
+model.add(layers.MaxPooling2D((2, 2)))
+
+model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+
+model.add(layers.Flatten())
+
+num_classes = 3
+model.add(layers.Dense(num_classes, activation='softmax'))
+
+model.summary()
+
+model.compile(loss='categorical_crossentropy', # Categorical Crossentropy for multi-class classification with one-hot labels
+            optimizer='adam',
+            metrics=['accuracy']) # Accuracy to evaluate performance
+```
+
+Posteriormente, en la búsqueda de mejorar la precisión del modelo, se hizo la propuesta de añadir los pesos a los filtros. Una vez con esta decisión, se implementó la arquitectura VGG16 en su entereza con los pesos de ImageNet que son los pesos de default. Finalmente, tras la nueva implementación (que es la primera que podemos ver en esta sección) el accuracy del modelo en TRAINING subió a 75%. Eso quiere decir que, ante la solución de una arquitectura profunda, el modelo mejoró UN 14% en accuracy de TRAINING.
+
+# Métricas
+
+Para evaluar el desempeño de una red neuronal convolucional (CNN) en tareas de clasificación o en cualquier caso, requiere el uso de métricas particulares. ¿Cómo se puede mejorar si no se sabe con exactitud el estado actual del proyecto? Esto es especialmente relevante en contextos donde los datos pueden estar desbalanceados, o cuando los errores tienen implicaciones importantes. Las métricas que se utilizaron para analizar el rendimiento de este modelos son los siguientes:
+
+- Precisión:
+  Indica qué proporción de las predicciones positivas realizadas por el modelo son realmente correctas. Es útil cuando se desea minimizar los falsos positivos, por ejemplo, evitando diagnosticar erróneamente una infección cuando no es correcta. Si el modelo identifica una imagen como perteneciente a una clase, ¿cuántas veces acertó?
+
+- Sensibilidad o "recall":
+  Mide la capacidad del modelo para identificar correctamente todos los casos positivos reales. Esta métrica es clave en contextos médicos, donde pasar por alto un caso positivo (falso negativo) puede ser clínicamente riesgoso. Se resume a la pregunta, de todas las imágenes que realmente muestran infección, ¿cuántas detectó el modelo?
+
+- F1:
+  Combina los resultados tanto la precisión como la sensibilidad en una sola métrica. Es especialmente útil cuando existe un desbalance entre clases o cuando se necesita un equilibrio entre los falsos positivos y los falsos negativos.
+
+- Soporte:
+  Representa el número total de muestras reales que pertenecen a cada clase. Aunque no es una métrica de rendimiento por sí misma, proporciona contexto sobre la confiabilidad de las métricas anteriores, ya que los valores calculados sobre clases con muy pocos ejemplos pueden ser inestables o poco representativos.
+
+Estas métricas suelen presentarse de forma desglosada por clase en tablas de reporte, lo que permite un análisis detallado del comportamiento del modelo. En el caso de este modelo, se utilizaron las métricas mencionadas anteriormente al igual que una matriz de confusión. Como lo menciona su nombre, representa gráficamente qué tanto se "confundió" y acertó el modelo, comparando el resultado esperado con el que predijo el modelo.
+
+<p>
+    <img src="Fotos/metrics.png" alt="metricas_modelo"/>
+</p>
