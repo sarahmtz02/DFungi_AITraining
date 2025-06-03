@@ -308,3 +308,18 @@ También, se hicieron las gráficas respecto a las comparaciones del TRAINING y 
 </p>
 
 El modelo muestra señales claras de OVERFITTING. Si seguimos ambas líneas en las gráficas, podemos observar que las líneas no tienen muchas curvas. También, la precisión y pérdida en validación fluctúa mucho y permanece baja durante todas las épocas. Y la diferencia que existe entre el TRAINING y el VALIDATION demuestra que el training va muchísimo mejor, además de que las propias métricas nos presentan el problema de que el modelo aprende patrones específicos del conjunto de entrenamiento y no se generaliza bien a datos nuevos como los que se encuentran el TEST. En resumen, que el modelo está memorizando en vez de aprender a identificar las imágenes.
+
+El problema de OVERFITTING tiene múltiples fuentes pero a lo largo del proyecto hubo algunos obstáculos que definitivamente apoyan este problema. Y por lo mismo, tienen una solución.
+
+# Áreas de Oportunidad y Mejoras
+
+I. Desbalance del dataset
+Desde el inicio de este proyecto, se pudo observar que el dataset estaba increíblemente desbalanceado. Constaba de 5 clasificaciones y mientras que la primera contaba con más de mil imágenes para entrenamiento, la última clasificación contaba con apenas 300. Esto crea un bias en el modelo. Es como si un alumno estudiase los temas de matemáticas. Del que estudió más va a entender y volar a través del examen en ese tema particular, pero en aquel que apenas estudió se sentirá inseguro e intentará resolverlo con la lógica que tiene de los demás temas, pero justamente por eso se sentirá inclinado a resolverlo como los anteriores a pesar que sea un tema completamente diferente. Aquí aplica lo mismo.
+Antes de terminar el modelo, se hizo un balanceo del dataset. Se limitó de 5 clasificaciones a 3 y se midió de manera que esas 3 clasificaciones tuvieran un aproximado de 700 imágenes de manera que fuesen "educadas" por igual o casi igual.
+SOLUCIÓN:
+Aumentar la cantidad de muestras para buscar que todas las clases tengan la misma o cerca de la misma cantidad de imágenes. Se puede usar la técnica de Data Augmentation para reducir la necesidad de buscar muchas imágenes reales.
+
+II. Data Augmentantation
+Siendo que uno de los problemas principales de este modelo es la poca capacidad para generalizar, además de requerir más muestras por clase para ser verdaderamente eficiente, se debe de buscar alargar el rango de generalidad de las muestras para que el modelo comprenda cuáles son los requerimientos de cada clase.
+SOLUCIÓN:
+Cuando se realice el Data Augmentation, que se generen las imágenes con cambios más radicales para que el modelo aprenda de estos y no memorice sólo un patrón.
