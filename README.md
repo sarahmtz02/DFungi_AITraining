@@ -1,13 +1,40 @@
 # Clasificación de Imágenes de Infecciones por Hongos con TensorFlow
 
 <p align="left">
-    <img src="Fotos/tec_logo.png" alt="Logo Tec" width="120"/>
+    <img src="Fotos/tec_logo.png" alt="Logo Tec" width="260"/>
 </p>
 
 ## 📝 Descripción
 
 Proyecto académico para la materia Desarrollo de aplicaciones avanzadas de ciencias computacionales. Este repositorio implementa un modelo de aprendizaje supervisado con TensorFlow para la clasificación de imágenes médicas en cinco clases distintas de infecciones por hongos.
-Se ha desarrollado con la técnica de **Aprendizaje Supervisado**. Esta es una subárea del Machine Learning en la que el modelo se entrena a identificar patrones alimentándose de un conjunto de datos con etiquetas (en este caso, utilizando 5 categorías). Se busca que el sistema realice una tarea de clasificación donde pueda identificar a cuál de las 5 categorías pertenece cada una de las imágenes
+Se ha desarrollado con la técnica de **Aprendizaje Supervisado**. Esta es una subárea del Machine Learning en la que el modelo se entrena a identificar patrones alimentándose de un conjunto de datos con etiquetas (en este caso, utilizando 3 categorías). Se busca que el sistema realice una tarea de clasificación donde pueda identificar a cuál de las 3 categorías pertenece cada una de las imágenes
+
+## Introducción
+
+En la última década, la Inteligencia Artificial (IA) se ha desarrollado y establecido como herramienta fundamental en múltiples campos tanto científicos como tecnológicos. Particularmente, se ha avanzado sustancialmente en tareas de procesamiento de datos complejos, como el análisis de imágenes. Las redes neuronales artificiales, en especial las redes neuronales convolucionales (CNN, por sus siglas en inglés), han demostrado la capacidad para la extracción automática de características relevantes a partir de imágenes, facilitando la automatización de procesos anteriormente reservados a revisión manual por parte de ingenieros u otros profesionales.
+De entre las aplicaciones más relevantes de las CNN, en este trabajo nos concentramos en la clasificación de imágenes como tarea crítica en uno de los muchos posibles contextos médicos y clínicos. Este tipo de redes es especialmente adecuado para identificar patrones visuales complejos, lo que las convierte en una herramienta poderosa en el diagnóstico por imagen. La estructura jerárquica que toman las CNN permite procesar la información visual desde niveles básicos como bordes y texturas, hasta representaciones de alto nivel entre ellas formas y estructuras celulares, permitiendo la identificación automatizada de patologías a partir de muestras visuales.
+En el área de la microbiología médica, el uso de estas redes neuronales para la clasificación de imágenes ha probado ser eficaz en la detección de infecciones bacterianas y fúngicas. Estos modelos son entrenados con bases de datos (o datasets) de imágenes clínicas o de laboratorio y han logrado resultados confiables en la identificación de agentes patógenos en imágenes.
+La incorporación de estas tecnologías en el diagnóstico clínico ha tenido un gran impacto en términos de eficiencia, accesibilidad y reducción de errores humanos. En particular, en entornos con recursos limitados o escasez de especialistas, los sistemas de clasificación automatizada pueden ser un apoyo valioso al personal médico, logrando diagnósticos más rápidos y acertados. Asimismo, estos modelos pueden ser integrados en plataformas digitales, facilitando la toma de decisiones clínicas en tiempo real. En el presente trabajo se enmarca en este contexto y tiene como objetivo desarrollar un modelo de red neuronal convolucional para la clasificación de imágenes de muestras clínicas, orientado a la detección de infecciones de origen fúngico. Este proyecto busca contribuir y entender el desarrollo de herramientas de apoyo para diagnóstico automatizado, promoviendo la adopción de tecnologías basadas en IA en entornos clínicos.
+
+## State of the Art
+
+Referencias del Estado del Arte (Papers):
+J. Baral, A. K. Baral, S. K. Baral, D. K. Baral, and S. K. Baral, "Deep ensemble learning for bacterial colony classification," Frontiers in Microbiology, vol. 14, 2023, Art. no. 10173177. [Online]. Available: https://doi.org/10.3389/fmicb.2023.10173177
+
+Y. Gao, X. Zhang, Y. Wang, and Z. Li, "Vision Transformer for fungal infection detection in time-lapse microscopy," Neural Networks, vol. 168, pp. 1–12, 2023. [Online]. Available: https://doi.org/10.1016/j.neunet.2023.07.219
+
+Ha habido múltiples trabajos, proyectos e investigaciones que han apuntado su atención a este tema. En los precedentes de estos experimentos cuando iban empezando, los modelos se apoyaban en métodos de visión por computador basados en descriptores manuales como:
+
+- SIFT (Scale-Invariant Feature Transform)
+  Detecta y describe puntos clave en una imagen que son invariantes a escala, rotación e iluminación. Es útil para reconocer objetos o patrones en imágenes incluso si han sido rotados o escaladas.
+
+- HOG (Histogram of Oriented Gradients)
+  Divide la imagen en celdas pequeñas y computa histogramas de gradientes (direcciones de bordes). Fue muy usado en detección de peatones y estructuras anatómicas simples, ya que captura bien las formas y contornos locales.
+
+- LBP (Local Binary Patterns)
+  Analiza la textura local de una imagen comparando cada píxel con sus vecinos. Si un píxel vecino es mayor que el central, se asigna un 1, en caso contrario un 0. Estos patrones binarios se usan para describir texturas y estructuras microscópicas, como superficies celulares.
+
+Sin embargo, la irrupción de las redes neuronales convolucionales (CNN) propició una transición hacia sistemas capaces de aprender representaciones jerárquicas directamente de los datos. Desde entonces, arquitecturas profundas como, por ejemplo, VGG, ResNet y DenseNet se han convertido en el estándar para tareas de diagnóstico por imagen como las que estamos trabajando en este proyecto. En el ámbito bacteriano, los estudios recientes evidencian mejoras sustanciales cuando se usan arquitecturas profundas.
 
 ## 📂 Sobre el Dataset
 
@@ -21,17 +48,29 @@ DFungi Dataset
 ├── test
 │ ├── H1 (3563 imágenes)
 │ ├── H2 (1887 imágenes)
-│ ├── H3 (667 imágenes)
-│ ├── H5 (666 imágenes)
-│ └── H6 (602 imágenes)
+│ └── H3 (667 imágenes)
 └── train
 │ ├── H1 (891 imágenes)
 │ ├── H2 (474 imágenes)
-│ ├── H3 (162 imágenes)
-│ ├── H5 (162 imágenes)
-│ └── H6 (148 imágenes)
+│ └── H3 (162 imágenes)
 └── augmented (312 imágenes)
 ```
+
+Each of the sections represents the following fungi types:
+H1: Candida albicans
+Es un hongo que causa principalmente candidiasis, una infección que puede afectar diversas partes del cuerpo.
+
+H2: Aspergillus niger
+Es un hongo que, en altas concentraciones, puede producir aspergilosis invasiva que puede causar sangrado pulmonar grave y, a veces, mortal.
+
+H3: Trichophyton rubrum
+Es un hongo que causa dermatofitosis o tiñas, principalmente en la piel y las uñas, pero también puede afectar el pelo.
+
+<p>
+    <img src="Fotos/H1.png" alt="H1" width="260" height="170"/>
+    <img src="Fotos/H2.jpg" alt="H2" width="260" height="170"/>
+    <img src="Fotos/H3.jpg" alt="H3" width="260" height="170"/>
+</p>
 
 # 🧹 Preprocesamiento de Datos
 
@@ -40,3 +79,87 @@ Para preparar las imágenes antes de entrenar el modelo, se utilizó la clase Im
 # 🔁 Data Augmentation
 
 Para mejorar la generalización del modelo y evitar el sobreajuste debido al bias, la técnica de Data Augmentation. El proceso incluyó rotaciones de hasta 10 grados, desplazamientos horizontales de la imagen de hasta un 20%, zoom de hasta un 30% y volteo horizontal. Todo para permitir al modelo generar variantes de las imágenes alimentadas al inicio, enriqueciendo el dataset de entrenamiento sin necesidad de recolectar más datos. Al final, las imágenes aumentadas se guardaron en la carpeta 'augmented'.
+
+## VGG16 - Arquitectura del Modelo
+
+Entre las arquitecturas más utilizadas, VGG16 destaca por su simplicidad estructural y su capacidad para lograr resultados competitivos en este tipo de tareas, debido a que consiste de empalmar capas sobre capas para lograr la arquitectura profunda que permite el aprendizaje supervisado eficiente. Fue una arquitectura introducida en 2014 por Simoyan y Zisserman. Se compone de 16 capas con pesos entrenables y utiliza filtros pequeños (3×3) con padding para conservar la dimensión espacial. Su diseño secuencial ha comprobado ser particularmente adecuado para problemas de detección de infecciones en imágenes microscópicas, debido a su capacidad para captar características finas en las imágenes como aquellas que usaremos para entrenar este modelo.
+Las imágenes con las que trabajan los pesos de ImageNet es de 224\*224, por lo que tenemos un input de (224, 224, 3) como tensor (el 3 por los filtros previamente mencionados). VGG16 se desglosa de la siguiente manera:
+
+- Capa de entrada:
+  Dimensiones de entrada: (224, 224, 3)
+
+- Capas convolucionales (64 filtros, filtros 3x3, mismo relleno):
+  Dos capas convolucionales consecutivas con 64 filtros cada una y un tamaño de filtro de 3x3.
+  Se aplica el mismo relleno para mantener las dimensiones espaciales.
+
+- Capa de agrupación máxima (2x2, paso 2):
+  Capa de agrupación máxima con un tamaño de grupo de 2x2 y un paso de 2.
+
+- Capas convolucionales (128 filtros, filtros 3x3, mismo relleno):
+  Dos capas convolucionales consecutivas con 128 filtros cada una y un tamaño de filtro de 3x3.
+
+- Capa de agrupación máxima (2x2, paso 2):
+  Capa de agrupación máxima con un tamaño de grupo de 2x2 y un paso de 2.
+
+- Capas convolucionales (256 filtros, 3x3 filtros, mismo relleno):
+  Dos capas convolucionales consecutivas con 256 filtros cada una y un tamaño de filtro de 3x3.
+
+- Capas convolucionales (512 filtros, 3x3 filtros, mismo relleno):
+  Dos conjuntos de tres capas convolucionales consecutivas con 512 filtros cada una y un tamaño de filtro de 3x3.
+
+- Capa de agrupación máxima (2x2, paso 2):
+  Capa de agrupación máxima con un tamaño de grupo de 2x2 y un paso de 2.
+
+- Pila de capas convolucionales y agrupación máxima:
+  Dos capas convolucionales adicionales a la pila anterior.
+  Tamaño del filtro: 3x3.
+
+- Aplanamiento:
+  Aplanar el mapa de características de salida (7x7x512) en un vector de tamaño 25088.
+
+- Capas completamente conectadas:
+  Tres capas completamente conectadas con activación ReLU\*.
+
+- Primera capa con tamaño de entrada 25088 y tamaño de salida 4096.
+
+- Segunda capa con tamaño de entrada 4096 y tamaño de salida 4096.
+
+- Tercera capa con tamaño de entrada 4096 y tamaño de salida 1000, correspondiente a las 1000 clases del desafío ILSVRC.
+  Se aplica la activación Softmax al output de la tercera capa completamente conectada para la clasificación.
+
+\*ReLU: es una función de activación que proporciona no linealidad al modelo para un mejor rendimiento de cálculo. Da como resultado el máximo entre su entrada y cero. Para entradas positivas, la salida de la función es igual a la entrada. Para salidas estrictamente negativas, la salida de la función es igual a cero.
+
+# Código
+
+```
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras import layers, models
+
+input_shape = (224, 224, 3)  # Tamaño de entrada de las imágenes según VGG16
+
+# Load VGG16 with pre-trained ImageNet weights, excluding the top (classifier) layers
+base_model = VGG16(weights='imagenet', include_top=False, input_shape=input_shape)
+
+# Freeze base model layers so they are not trained
+base_model.trainable = False
+
+# Unfreeze some of the top layers
+# For VGG16, 'block5_conv1' onwards are typically good candidates for unfreezing
+# You can print base_model.summary() to see all layer names
+for layer in base_model.layers:
+    if layer.name.startswith('block5'): # Unfreeze layers in block5
+        layer.trainable = True
+
+model = models.Sequential()
+model.add(base_model)
+model.add(layers.Flatten())
+model.add(layers.Dense(128, activation='relu'))  # Optional: add more dense layers
+model.add(layers.Dense(3, activation='softmax'))
+
+model.summary()
+
+# Compilar el modelo
+model.compile(loss='categorical_crossentropy', # Categorical Crossentropy for multi-class classification with one-hot labels
+						optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001),
+						metrics=['accuracy']) # Accuracy to evaluate performance
+```
