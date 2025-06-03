@@ -279,3 +279,21 @@ Estas métricas suelen presentarse de forma desglosada por clase en tablas de re
 <p>
     <img src="Fotos/metrics.png" alt="metricas_modelo"/>
 </p>
+
+Como se puede ver en la tabla de arriba, el modelo tiene un desempeño general bajo. ¿Pero qué no se había mencionado antes que se tenía un accuracy de 75%? ¿Qué pasó? El valor de 75% sale de los archivos seleccionados para entrenar el modelo. Eso quiere decir que son archivos que el mismo modelo reconoce y puede identificar con mayor facilidad. Sin embargo, las pruebas para las métricas usan los archivos del dataset en la carpeta de TEST. Imágenes que el modelo nunca ha visto y batalla más en reconocer. El accuracy final de la prueba con TEST fue de 0.38, lo que implica que menos del 40 % de las predicciones fueron correctas en relación al total de muestras. Esta cifra está por debajo del umbral de utilidad práctica para la mayoría de las aplicaciones.
+
+En desglose:
+La clase H1 obtuvo el mejor rendimiento relativo, con una precisión de 0.45 y una sensibilidad (recall) de 0.66. Esto quiere decir que el modelo identifica correctamente la mayoría de los casos reales de H1, aunque también comete un número considerable de falsos positivos.
+
+La clase H2 mostró un desempeño bajo, especialmente en recall (0.14), lo cual sugiere que el modelo está fallando en reconocer la mayoría de los casos de esta clase. Su precisión es ligeramente mejor (0.39), lo que indica que cuando predice H2, no lo hace con demasiada frecuencia, pero sí con algo más de acierto.
+
+La clase H3 fue la más débilmente clasificada, con precisión, recall y F1-score todos por debajo de 0.25. Esto es un fuerte indicio de que el modelo apenas está reconociendo los casos de esta clase y, cuando lo hace, no es confiable.
+
+Todo esto se puede observar a través de la matriz de confusión más abajo:
+
+<p>
+    <img src="Fotos/matrix.png" alt="matrix" height="500"/>
+</p>
+
+Finalmente, los promedios macro y ponderado (macro avg y weighted avg) muestran consistencia con los datos por clase, revelando un rendimiento bajo y un desequilibrio entre clases. El F1-score ponderado de 0.34 indica que incluso teniendo en cuenta el número de muestras por clase, el modelo no logra un rendimiento satisfactorio.
+Los resultados obtenidos muestran que el modelo aún presenta deficiencias en su capacidad de clasificación, especialmente en lo que respecta a las clases H2 y H3. Aunque la clase H1 presenta métricas más aceptables, el bajo desempeño en las otras dos clases afecta negativamente el resultado global. ¿Si tiene falsos positivos de H1 para la gran mayoría de las imágenes, qué tanto podríamos confiar en él? Además, la baja accuracy (38 %) y los bajos valores de las demás métricas sugieren que el modelo no generaliza bien y tiene dificultades para distinguir entre patrones de las distintas clases.
