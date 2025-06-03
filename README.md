@@ -1,6 +1,6 @@
 # Clasificación de Imágenes de Infecciones por Hongos con TensorFlow
 
-<p align="left">
+<p align="right">
     <img src="Fotos/tec_logo.png" alt="Logo Tec" width="260"/>
 </p>
 
@@ -72,13 +72,69 @@ Es un hongo que causa dermatofitosis o tiñas, principalmente en la piel y las u
     <img src="Fotos/H3.jpg" alt="H3" width="260" height="170"/>
 </p>
 
-# 🧹 Preprocesamiento de Datos
+## 🔁 Data Augmentation
 
-Para preparar las imágenes antes de entrenar el modelo, se utilizó la clase ImageDataGenerator de TensorFlow con un reescalado de entre 0 y 1, dividiendo cada valor por 255. Esto con el propósito de permitir una mejor convergencia del modelo durante el entrenamiento. También, se hizo un redimensionamiento de las imágenes como el hecho en clase a un tamaño uniforme de 150x150 píxeles para asegurar la compatibilidad con la arquitectura de la red neuronal. Anteriormente, el modelo contaba con un recorte de las imágenes para hacer enfoque sólo de la zona de interés para el entrenamiento, algo que definitivamente apoyó bastante. Finalmente, se colocan los datos en batches y asigna etiquetas de clase en modo categórico debido a que esto es una clasificación multiclase (tenemos 5 clases) en vez de las usadas en clase que eran binarias (sólo 2 clasificaciones).
+Para mejorar la generalización del modelo y evitar el sobreajuste debido al bias, la técnica de Data Augmentation. El proceso incluyó rotaciones de hasta 10 grados, desplazamientos horizontales de la imagen de hasta un 20%, zoom de hasta un 30% y volteo horizontal. Todo para permitir al modelo generar variantes de las imágenes alimentadas al inicio, enriqueciendo el dataset de entrenamiento sin necesidad de recolectar más datos.
 
-# 🔁 Data Augmentation
+```
+# Usamos la función ImageDataGenerator de TensorFlow
+train_datagen = ImageDataGenerator(
+    rescale = 1./255, # Reescalamos las imágenes
+    rotation_range = 10, # Las rotamos levemente (10 grados)
+    width_shift_range = 0.2, # Permitimos que se ensanche la imagen
+    zoom_range = 0.3, # Hacemos zoom
+    horizontal_flip = True, #Volteamos la imagen
+    validation_split=0.10
+    )
+```
 
-Para mejorar la generalización del modelo y evitar el sobreajuste debido al bias, la técnica de Data Augmentation. El proceso incluyó rotaciones de hasta 10 grados, desplazamientos horizontales de la imagen de hasta un 20%, zoom de hasta un 30% y volteo horizontal. Todo para permitir al modelo generar variantes de las imágenes alimentadas al inicio, enriqueciendo el dataset de entrenamiento sin necesidad de recolectar más datos. Al final, las imágenes aumentadas se guardaron en la carpeta 'augmented'.
+Tras esto, guardamos las imágenes modificadas en la carpeta "augmented" como archivos .png. Esta función tiene un límite de crear 300 imágenes, debido a que sin ponerle límites, creaba más de 10,000 archivos. Esto alentaba el entrenamiento del modelo y, posteriormente, el guardado del mismo debido a la alta densidad de archivos.
+
+```
+temp_sampler_generator = train_datagen.flow_from_directory(
+    "../DFungi_dataset/train",
+    target_size=(224, 224),
+    batch_size=saving_batch_size,
+    class_mode='categorical',
+    save_to_dir=sample_augmented_dir,
+    save_prefix='aug',
+    save_format='png',
+    subset='training', # Use 'training' if validation_split is in train_datagen
+    shuffle=False, # Keep shuffle=False for consistent sample generation
+)
+```
+
+## 🧹 Preprocesamiento de Datos
+
+Para preparar las imágenes antes de entrenar el modelo, se utilizó la clase ImageDataGenerator de TensorFlow con un reescalado de entre 0 y 1, dividiendo cada valor por 255. Esto con el propósito de permitir una mejor convergencia del modelo durante el entrenamiento. También, se hizo un redimensionamiento de las imágenes como el hecho en clase a un tamaño uniforme de 244x244 píxeles, según lo estipulado en la arquitectura VGG16 que se revisará más adelante, para asegurar la compatibilidad con la arquitectura de la red neuronal. Anteriormente, el modelo contaba con un recorte de las imágenes para hacer enfoque sólo de la zona de interés para el entrenamiento, algo que definitivamente apoyó bastante. Finalmente, se colocan los datos en batches y asigna etiquetas de clase en modo categórico debido a que esto es una clasificación multiclase (tenemos 3 clases) en vez de las usadas en clase que eran binarias (sólo 2 clasificaciones).
+
+```
+validation_generator = train_datagen.flow_from_directory(
+    train_dir, # le damos el path de entrenamiento
+    target_size = (224, 224), # Tamaño de las imágenes según VGG16
+    # batch_size = 1 porque la RAM es un relajo XD
+    subset='validation',
+    batch_size = 1, # la cantidad de imágenes por conversión
+    class_mode ='categorical', # modo categórico porque tenemos
+    # 3 clases datos
+
+test_generator = test_datagen.flow_from_directory(
+    test_dir, # le damos el path de test
+    target_size = (224, 224), # Tamaño de las imágenes según VGG16
+    # batch_size = 1 porque la RAM es un relajo XD
+    batch_size = 1, # la cantidad de imágenes por conversión
+    class_mode ='categorical', # modo categórico porque tenemos
+    # 3 clases datos
+    )
+
+train_generator = train_datagen.flow_from_directory(
+    train_dir,# le damos el path de entrenamiento
+    target_size = (224, 224), # Tamaño de las imágenes según VGG16
+    batch_size = 8, # la cantidad de imágenes por conversión
+    class_mode ='categorical', # modo categórico porque tenemos
+    # 3 clases datos
+    )
+```
 
 ## VGG16 - Arquitectura del Modelo
 
@@ -129,8 +185,6 @@ Las imágenes con las que trabajan los pesos de ImageNet es de 224\*224, por lo 
 
 \*ReLU: es una función de activación que proporciona no linealidad al modelo para un mejor rendimiento de cálculo. Da como resultado el máximo entre su entrada y cero. Para entradas positivas, la salida de la función es igual a la entrada. Para salidas estrictamente negativas, la salida de la función es igual a cero.
 
-# Código
-
 ```
 from tensorflow.keras.applications import VGG16
 from tensorflow.keras import layers, models
@@ -163,3 +217,9 @@ model.compile(loss='categorical_crossentropy', # Categorical Crossentropy for mu
 						optimizer=tf.keras.optimizers.Adam(learning_rate=0.0001),
 						metrics=['accuracy']) # Accuracy to evaluate performance
 ```
+
+De esta manera, la red queda como se muestra en la imagen:
+
+<p>
+    <img src="Fotos/red.png" alt="tabla_red"/>
+</p>
