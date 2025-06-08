@@ -9,14 +9,14 @@
 Proyecto académico para la materia Desarrollo de aplicaciones avanzadas de ciencias computacionales. Este repositorio implementa un modelo de aprendizaje supervisado con TensorFlow para la clasificación de imágenes médicas en cinco clases distintas de infecciones por hongos.
 Se ha desarrollado con la técnica de **Aprendizaje Supervisado**. Esta es una subárea del Machine Learning en la que el modelo se entrena a identificar patrones alimentándose de un conjunto de datos con etiquetas (en este caso, utilizando 3 categorías). Se busca que el sistema realice una tarea de clasificación donde pueda identificar a cuál de las 3 categorías pertenece cada una de las imágenes
 
-## Introducción
+## 📘 Introducción
 
 En la última década, la Inteligencia Artificial (IA) se ha desarrollado y establecido como herramienta fundamental en múltiples campos tanto científicos como tecnológicos. Particularmente, se ha avanzado sustancialmente en tareas de procesamiento de datos complejos, como el análisis de imágenes. Las redes neuronales artificiales, en especial las redes neuronales convolucionales (CNN, por sus siglas en inglés), han demostrado la capacidad para la extracción automática de características relevantes a partir de imágenes, facilitando la automatización de procesos anteriormente reservados a revisión manual por parte de ingenieros u otros profesionales.
 De entre las aplicaciones más relevantes de las CNN, en este trabajo nos concentramos en la clasificación de imágenes como tarea crítica en uno de los muchos posibles contextos médicos y clínicos. Este tipo de redes es especialmente adecuado para identificar patrones visuales complejos, lo que las convierte en una herramienta poderosa en el diagnóstico por imagen. La estructura jerárquica que toman las CNN permite procesar la información visual desde niveles básicos como bordes y texturas, hasta representaciones de alto nivel entre ellas formas y estructuras celulares, permitiendo la identificación automatizada de patologías a partir de muestras visuales.
 En el área de la microbiología médica, el uso de estas redes neuronales para la clasificación de imágenes ha probado ser eficaz en la detección de infecciones bacterianas y fúngicas. Estos modelos son entrenados con bases de datos (o datasets) de imágenes clínicas o de laboratorio y han logrado resultados confiables en la identificación de agentes patógenos en imágenes.
 La incorporación de estas tecnologías en el diagnóstico clínico ha tenido un gran impacto en términos de eficiencia, accesibilidad y reducción de errores humanos. En particular, en entornos con recursos limitados o escasez de especialistas, los sistemas de clasificación automatizada pueden ser un apoyo valioso al personal médico, logrando diagnósticos más rápidos y acertados. Asimismo, estos modelos pueden ser integrados en plataformas digitales, facilitando la toma de decisiones clínicas en tiempo real. En el presente trabajo se enmarca en este contexto y tiene como objetivo desarrollar un modelo de red neuronal convolucional para la clasificación de imágenes de muestras clínicas, orientado a la detección de infecciones de origen fúngico. Este proyecto busca contribuir y entender el desarrollo de herramientas de apoyo para diagnóstico automatizado, promoviendo la adopción de tecnologías basadas en IA en entornos clínicos.
 
-## State of the Art
+## 📚 State of the Art
 
 Referencias del Estado del Arte (Papers):
 J. Baral, A. K. Baral, S. K. Baral, D. K. Baral, and S. K. Baral, "Deep ensemble learning for bacterial colony classification," Frontiers in Microbiology, vol. 14, 2023, Art. no. 10173177. [Online]. Available: https://doi.org/10.3389/fmicb.2023.10173177
@@ -136,7 +136,7 @@ train_generator = train_datagen.flow_from_directory(
     )
 ```
 
-## VGG16 - Arquitectura del Modelo
+## 🧠 VGG16 - Arquitectura del Modelo
 
 Entre las arquitecturas más utilizadas, VGG16 destaca por su simplicidad estructural y su capacidad para lograr resultados competitivos en este tipo de tareas, debido a que consiste de empalmar capas sobre capas para lograr la arquitectura profunda que permite el aprendizaje supervisado eficiente. Fue una arquitectura introducida en 2014 por Simoyan y Zisserman. Se compone de 16 capas con pesos entrenables y utiliza filtros pequeños (3×3) con padding para conservar la dimensión espacial. Su diseño secuencial ha comprobado ser particularmente adecuado para problemas de detección de infecciones en imágenes microscópicas, debido a su capacidad para captar características finas en las imágenes como aquellas que usaremos para entrenar este modelo.
 Las imágenes con las que trabajan los pesos de ImageNet es de 224\*224, por lo que tenemos un input de (224, 224, 3) como tensor (el 3 por los filtros previamente mencionados). VGG16 se desglosa de la siguiente manera:
@@ -258,7 +258,7 @@ model.compile(loss='categorical_crossentropy', # Categorical Crossentropy for mu
 
 Posteriormente, en la búsqueda de mejorar la precisión del modelo, se hizo la propuesta de añadir los pesos a los filtros. Una vez con esta decisión, se implementó la arquitectura VGG16 en su entereza con los pesos de ImageNet que son los pesos de default. Finalmente, tras la nueva implementación (que es la primera que podemos ver en esta sección) el accuracy del modelo en TRAINING subió a 75%. Eso quiere decir que, ante la solución de una arquitectura profunda, el modelo mejoró UN 14% en accuracy de TRAINING.
 
-# Métricas y Resultados
+# 📊 Métricas y Resultados
 
 Para evaluar el desempeño de una red neuronal convolucional (CNN) en tareas de clasificación o en cualquier caso, requiere el uso de métricas particulares. ¿Cómo se puede mejorar si no se sabe con exactitud el estado actual del proyecto? Esto es especialmente relevante en contextos donde los datos pueden estar desbalanceados, o cuando los errores tienen implicaciones importantes. Las métricas que se utilizaron para analizar el rendimiento de este modelos son los siguientes:
 
@@ -311,7 +311,7 @@ El modelo muestra señales claras de OVERFITTING. Si seguimos ambas líneas en l
 
 El problema de OVERFITTING tiene múltiples fuentes pero a lo largo del proyecto hubo algunos obstáculos que definitivamente apoyan este problema. Y por lo mismo, tienen una solución.
 
-# Áreas de Oportunidad y Mejoras
+# 🔧 Áreas de Oportunidad y Mejoras
 
 I. Desbalance del dataset
 Desde el inicio de este proyecto, se pudo observar que el dataset estaba increíblemente desbalanceado. Constaba de 5 clasificaciones y mientras que la primera contaba con más de mil imágenes para entrenamiento, la última clasificación contaba con apenas 300. Esto crea un bias en el modelo. Es como si un alumno estudiase los temas de matemáticas. Del que estudió más va a entender y volar a través del examen en ese tema particular, pero en aquel que apenas estudió se sentirá inseguro e intentará resolverlo con la lógica que tiene de los demás temas, pero justamente por eso se sentirá inclinado a resolverlo como los anteriores a pesar que sea un tema completamente diferente. Aquí aplica lo mismo.
